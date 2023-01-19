@@ -13,7 +13,7 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-alert("1");
+alert("2");
 
 // Vue 3 section
 // ljpLethNw4MWqXSsrU3jsrcCbXt1
@@ -59,9 +59,9 @@ const app = Vue.createApp({
         this.data = snapshot.val();
       });
     },
-    firebaseLoginGoogle() {
+    async firebaseLoginGoogle() {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth()
+      await firebase.auth()
         .signInWithPopup(provider)
         .then((result) => {
           this.uid = result.user.uid;
@@ -74,7 +74,6 @@ const app = Vue.createApp({
             email: error.email,
             credential: error.credential
           })
-          this.firebaseLoginGoogle();
           alert("伺服器發生錯誤，請稍後再試");
         });
     },
