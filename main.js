@@ -13,7 +13,7 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-alert("2");
+alert("3");
 
 // Vue 3 section
 // ljpLethNw4MWqXSsrU3jsrcCbXt1
@@ -59,9 +59,9 @@ const app = Vue.createApp({
         this.data = snapshot.val();
       });
     },
-    async firebaseLoginGoogle() {
+    firebaseLoginGoogle() {
       const provider = new firebase.auth.GoogleAuthProvider();
-      await firebase.auth()
+      firebase.auth()
         .signInWithPopup(provider)
         .then((result) => {
           this.uid = result.user.uid;
@@ -86,6 +86,8 @@ const app = Vue.createApp({
     // 根據 URL param 調出相應的春聯牆
     this.wall = this.getUrlParams("wall");
     if (this.wall) { this.firebaseDatabaseOn(this.wall) }
+
+    if (typeof this.uid == "undefined") { this.firebaseLoginGoogle() }
   }
 });
 
