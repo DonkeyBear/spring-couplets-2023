@@ -74,6 +74,12 @@ const app = Vue.createApp({
             email: error.email,
             credential: error.credential
           })
+          alert({
+            code: error.code,
+            message: error.message,
+            email: error.email,
+            credential: error.credential
+          });
           alert("伺服器發生錯誤，請稍後再試");
         });
     },
