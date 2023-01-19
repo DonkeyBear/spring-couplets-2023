@@ -200,9 +200,26 @@ const app = Vue.createApp({
     }
   },
   created() {
-    const provider = new firebase.auth.GoogleAuthProvider();
+    /* const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth()
       .signInWithPopup(provider)
+      .then((result) => {
+        this.uid = result.user.uid;
+        this.firebaseDatabaseOn(this.uid);
+      }).catch((error) => {
+        console.error({
+          code: error.code,
+          message: error.message,
+          email: error.email,
+          credential: error.credential
+        })
+        alert("伺服器發生錯誤，請稍後再試");
+      }); */
+    const providerGoogle = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithRedirect(providerGoogle);
+
+    firebase.auth()
+      .getRedirectResult()
       .then((result) => {
         this.uid = result.user.uid;
         this.firebaseDatabaseOn(this.uid);
