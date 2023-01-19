@@ -48,6 +48,7 @@ const app = Vue.createApp({
     return {
       coupletNow: 0,
       pageNow: 1,
+      wall: undefined,
       uid: undefined,
       data: undefined
       /*
@@ -197,9 +198,41 @@ const app = Vue.createApp({
       db.ref(location).on("value", (snapshot) => {
         this.data = snapshot.val();
       });
+    },
+    firebaseLoginGoogle() {
+      /* const providerGoogle = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithRedirect(providerGoogle); */
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth()
+        .signInWithPopup(provider)
+        .then((result) => {
+          this.uid = result.user.uid;
+          this.firebaseDatabaseOn(this.uid);
+        }).catch((error) => {
+          console.error({
+            code: error.code,
+            message: error.message,
+            email: error.email,
+            credential: error.credential
+          })
+          alert("伺服器發生錯誤，請稍後再試");
+        });
+    },
+    getUrlParams(key) {
+      let newUrl = new URL(window.location);
+      return newUrl.searchParams.get(key);
+    },
+    addUrlParam(url, key, value) {
+      let newUrl = new URL(url);
+      newUrl.searchParams.set(key, value);
+      return newUrl;
     }
   },
   created() {
+    // 根據 URL param 調出相應的春聯牆
+    this.wall = this.getUrlParams("wall");
+    if (this.wall) { this.firebaseDatabaseOn(this.wall) }
+
     /* const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth()
       .signInWithPopup(provider)
@@ -215,10 +248,8 @@ const app = Vue.createApp({
         })
         alert("伺服器發生錯誤，請稍後再試");
       }); */
-    const providerGoogle = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithRedirect(providerGoogle);
 
-    firebase.auth()
+    /* firebase.auth()
       .getRedirectResult()
       .then((result) => {
         this.uid = result.user.uid;
@@ -231,7 +262,7 @@ const app = Vue.createApp({
           credential: error.credential
         })
         alert("伺服器發生錯誤，請稍後再試");
-      });
+      }); */
   }
 });
 
