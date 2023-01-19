@@ -13,6 +13,8 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+alert("1");
+
 // Vue 3 section
 // ljpLethNw4MWqXSsrU3jsrcCbXt1
 /* 
@@ -72,6 +74,7 @@ const app = Vue.createApp({
             email: error.email,
             credential: error.credential
           })
+          this.firebaseLoginGoogle();
           alert("伺服器發生錯誤，請稍後再試");
         });
     },
