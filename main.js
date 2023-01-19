@@ -200,13 +200,12 @@ const app = Vue.createApp({
       });
     },
     firebaseLoginGoogle() {
-      /* const providerGoogle = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithRedirect(providerGoogle); */
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth()
         .signInWithPopup(provider)
         .then((result) => {
           this.uid = result.user.uid;
+          this.wall = result.user.uid;
           this.firebaseDatabaseOn(this.uid);
         }).catch((error) => {
           console.error({
@@ -222,16 +221,20 @@ const app = Vue.createApp({
       let newUrl = new URL(window.location);
       return newUrl.searchParams.get(key);
     },
-    addUrlParam(url, key, value) {
-      let newUrl = new URL(url);
-      newUrl.searchParams.set(key, value);
-      return newUrl;
+    copyUrl() {
+      navigator.clipboard.writeText(window.location).then(() => {
+        alert("複製成功！");
+      }, (err) => {
+        console.error('複製失敗：\n', err);
+      })
     }
   },
   created() {
     // 根據 URL param 調出相應的春聯牆
     this.wall = this.getUrlParams("wall");
     if (this.wall) { this.firebaseDatabaseOn(this.wall) }
+
+    this.copyUrl();
 
     /* const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth()

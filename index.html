@@ -9,6 +9,7 @@
   <title>春聯</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
   <link rel="stylesheet" href="./style.css">
 </head>
 
@@ -18,41 +19,55 @@
     <div v-if="data" class="container-inner">
       <!-- Modal -->
       <div class="modal fade" id="message-modal" tabindex="-1" aria-labelledby="message-modal-label" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="message-modal-label">春聯賀年卡</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <div class="row mb-1">
-                <div class="col fw-bold">
-                  發送者
+            <template v-if="uid == wall">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="message-modal-label">春聯賀年卡</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row mb-1">
+                  <div class="col fw-bold">
+                    發送者
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col">
+                    <span class="form-control">
+                      {{ data.couplets[coupletNow].sender }}
+                    </span>
+                  </div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col fw-bold">
+                    訊息
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <span class="form-control couplet-message">
+                      {{ data.couplets[coupletNow].message }}
+                    </span>
+                  </div>
                 </div>
               </div>
-              <div class="row mb-2">
-                <div class="col">
-                  <span class="form-control">
-                    {{ data.couplets[coupletNow].sender }}
-                  </span>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+              </div>
+            </template>
+            <template v-else>
+              <div class="modal-header border-bottom-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body pt-0 pb-5">
+                <div class="row text-center">
+                  <div class="col">
+                    登入後才能看到內容喔！
+                  </div>
                 </div>
               </div>
-              <div class="row mb-1">
-                <div class="col fw-bold">
-                  訊息
-                </div>
-              </div>
-              <div class="row">
-                <div class="col">
-                  <span class="form-control couplet-message">
-                    {{ data.couplets[coupletNow].message }}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
-            </div>
+            </template>
           </div>
         </div>
       </div>
@@ -88,16 +103,25 @@
       </div>
 
       <div class="row">
-        <div class="col">
-          <button class="btn btn-primary w-100">
-            登入
-          </buttonㄡ>
-        </div>
-        <div class="col">
-          <button class="btn btn-primary w-100" @click="firebaseLoginGoogle()">
-            分享這面春聯牆
-          </button>
-        </div>
+        <template v-if="uid == wall">
+          <div class="col">
+            <button class="btn btn-primary w-100">
+              <i class="bi bi-clipboard2 me-2"></i>複製連結
+            </button>
+          </div>
+        </template>
+        <template v-else>
+          <div class="col-8">
+            <button class="btn btn-primary w-100" @click="firebaseLoginGoogle()">
+              <i class="bi bi-house-add me-2"></i>創建 / 登入我的賀年牆
+            </button>
+          </div>
+          <div class="col-4">
+            <button class="btn btn-primary w-100">
+              <i class="bi bi-plus-square me-2"></i>貼上春聯
+            </button>
+          </div>
+        </template>
       </div>
     </div>
     <div v-else class="container-loading">
