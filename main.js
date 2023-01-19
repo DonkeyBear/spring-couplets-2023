@@ -13,7 +13,7 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-alert("3");
+alert("4");
 
 // Vue 3 section
 // ljpLethNw4MWqXSsrU3jsrcCbXt1
@@ -74,12 +74,10 @@ const app = Vue.createApp({
             email: error.email,
             credential: error.credential
           })
-          alert({
-            code: error.code,
-            message: error.message,
-            email: error.email,
-            credential: error.credential
-          });
+          alert(error.code)
+          alert(error.message)
+          alert(error.email)
+          alert(error.credential)
           alert("伺服器發生錯誤，請稍後再試");
         });
     },
