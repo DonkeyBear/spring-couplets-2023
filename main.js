@@ -27,22 +27,8 @@ uid: {
     }
   ]
 }
-
-if (新建春聯牆) {
-  登入(); // 取得UID
-  if (UID已存在) {
-    DB.取得NAME(UID);
-    DB.取得春聯(UID);
-    
-  } else {
-
-  }
-
-} else if (貼春聯) {
-
-}
-
 */
+// TODO: 複製網址
 const app = Vue.createApp({
   data() {
     return {
@@ -51,134 +37,6 @@ const app = Vue.createApp({
       wall: undefined,
       uid: undefined,
       data: undefined
-      /*
-      user1: {
-        name: "Apple",
-        doorStyle: {
-          color: "#333",
-          doorknob: "3"
-        },
-        messages: [
-          {
-            sender: "Andy",
-            message: "I'm here!",
-            couplet: {
-              style: "1",
-              character: "福",
-              direction: "1"
-            }
-          },
-          {
-            sender: "Good Man",
-            message: "I Love You.",
-            couplet: {
-              style: "1",
-              character: "肛",
-              direction: "1"
-            }
-          },
-          {
-            sender: "Andy2",
-            message: "I'm here2!\nBLABLABLAB\nawdawdwd.",
-            couplet: {
-              style: "1",
-              character: "你",
-              direction: "1"
-            }
-          },
-          {
-            sender: "Andy3",
-            message: "I'm here3!",
-            couplet: {
-              style: "1",
-              character: "丟",
-              direction: "1"
-            }
-          },
-          {
-            sender: "Good Man",
-            message: "I Love You.",
-            couplet: {
-              style: "1",
-              character: "肛",
-              direction: "1"
-            }
-          },
-          {
-            sender: "Good Man",
-            message: "I Love You.",
-            couplet: {
-              style: "1",
-              character: "Y",
-              direction: "1"
-            }
-          },
-          {
-            sender: "Good Man",
-            message: "I Love You.",
-            couplet: {
-              style: "1",
-              character: "肛",
-              direction: "1"
-            }
-          },
-          {
-            sender: "Good Man",
-            message: "I Love You.",
-            couplet: {
-              style: "1",
-              character: "E",
-              direction: "1"
-            }
-          },
-          {
-            sender: "Good Man",
-            message: "I Love You.",
-            couplet: {
-              style: "1",
-              character: "F",
-              direction: "1"
-            }
-          },
-          {
-            sender: "Good Man",
-            message: "I Love You.",
-            couplet: {
-              style: "1",
-              character: "B",
-              direction: "1"
-            }
-          },
-          {
-            sender: "Good Man",
-            message: "I Love You.",
-            couplet: {
-              style: "1",
-              character: "A",
-              direction: "1"
-            }
-          }
-        ]
-      },
-      user2: {
-        name: "Good Man",
-        doorStyle: {
-          color: "#333",
-          doorknob: "3"
-        },
-        messages: [
-          {
-            sender: "Andy again",
-            message: "I'm here, too!",
-            couplet: {
-              style: "1",
-              character: "財",
-              direction: "3"
-            }
-          }
-        ]
-      }
-      */
     }
   },
   methods: {
@@ -220,52 +78,12 @@ const app = Vue.createApp({
     getUrlParams(key) {
       let newUrl = new URL(window.location);
       return newUrl.searchParams.get(key);
-    },
-    copyUrl() {
-      navigator.clipboard.writeText(window.location).then(() => {
-        alert("複製成功！");
-      }, (err) => {
-        console.error('複製失敗：\n', err);
-      })
     }
   },
   created() {
     // 根據 URL param 調出相應的春聯牆
     this.wall = this.getUrlParams("wall");
     if (this.wall) { this.firebaseDatabaseOn(this.wall) }
-
-    this.copyUrl();
-
-    /* const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth()
-      .signInWithPopup(provider)
-      .then((result) => {
-        this.uid = result.user.uid;
-        this.firebaseDatabaseOn(this.uid);
-      }).catch((error) => {
-        console.error({
-          code: error.code,
-          message: error.message,
-          email: error.email,
-          credential: error.credential
-        })
-        alert("伺服器發生錯誤，請稍後再試");
-      }); */
-
-    /* firebase.auth()
-      .getRedirectResult()
-      .then((result) => {
-        this.uid = result.user.uid;
-        this.firebaseDatabaseOn(this.uid);
-      }).catch((error) => {
-        console.error({
-          code: error.code,
-          message: error.message,
-          email: error.email,
-          credential: error.credential
-        })
-        alert("伺服器發生錯誤，請稍後再試");
-      }); */
   }
 });
 
