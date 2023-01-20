@@ -17,7 +17,7 @@
 
   <div id="app" class="container">
     <div v-if="data" class="container-inner">
-      <!-- Modal -->
+      <!-- Modal 查看春聯 -->
       <div class="modal fade" id="message-modal" tabindex="-1" aria-labelledby="message-modal-label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div class="modal-content">
@@ -28,26 +28,26 @@
               </div>
               <div class="modal-body">
                 <div class="row mb-1">
-                  <div class="col fw-bold">
+                  <div class="col text-muted">
                     發送者
                   </div>
                 </div>
                 <div class="row mb-2">
                   <div class="col">
                     <span class="form-control">
-                      {{ data.couplets[coupletNow].sender }}
+                      {{ couplets[coupletNow].sender }}
                     </span>
                   </div>
                 </div>
                 <div class="row mb-1">
-                  <div class="col fw-bold">
+                  <div class="col text-muted">
                     訊息
                   </div>
                 </div>
                 <div class="row">
                   <div class="col">
                     <span class="form-control couplet-message">
-                      {{ data.couplets[coupletNow].message }}
+                      {{ couplets[coupletNow].message }}
                     </span>
                   </div>
                 </div>
@@ -72,19 +72,62 @@
         </div>
       </div>
 
+      <!-- Modal 張貼春聯 -->
+      <div class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="post-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="post-modal-label">張貼春聯賀年卡</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row mb-2">
+                <div class="col">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="couplet-text-input" maxlength="1" v-model="coupletPost.text" placeholder="春聯題字">
+                    <label class="text-muted" for="couplet-text-input">春聯題字（限一字）</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="couplet-sender-input" v-model="coupletPost.sender" placeholder="發送者署名">
+                    <label class="text-muted" for="couplet-sender-input">發送者署名</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="form-floating">
+                    <textarea class="form-control" placeholder="訊息內容" id="couplet-message-input" v-model="coupletPost.message"></textarea>
+                    <label class="text-muted" for="couplet-message-input">訊息內容</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="pushCouplet()">張貼</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row row-cols-3 select-none">
-        <template v-for="item of data.couplets.slice((pageNow-1)*9, pageNow*9)">
-          <div class="col text-center position-relative mb-3" @click="coupletNow=data.couplets.indexOf(item)"
+        <template v-for="item of couplets.slice((pageNow-1)*9, pageNow*9)">
+          <div class="col text-center position-relative mb-3" :class="`couplet-${item.style}`" @click="coupletNow=couplets.indexOf(item)"
             data-bs-toggle="modal" data-bs-target="#message-modal">
-            <img src="./img/background.svg" class="w-100 h-100" alt="">
+            <img v-if="item.style != 3" src="./img/couplet.svg" class="w-100 h-100">
+            <img v-else src="./img/couplet3.svg" class="w-100 h-100">
             <span class="couplet-text position-absolute top-50 start-50">
-              {{ item.character }}
+              {{ item.text }}
             </span>
           </div>
         </template>
-        <template v-if="pageNow==Math.ceil(data.couplets.length/9)" v-for="space of 9-(data.couplets.length%9)">
-          <div class="col text-center position-relative mb-3 opacity-0">
-            <img src="./img/background.svg" class="w-100 h-100" alt="">
+        <template v-if="pageNow==Math.ceil(couplets.length/9)" v-for="space of 9-(couplets.length%9)">
+          <div class="col position-relative mb-3 opacity-0">
+            <img src="./img/couplet.svg" class="w-100 h-100">
           </div>
         </template>
       </div>
@@ -94,10 +137,10 @@
           <button v-if="pageNow!=1" @click="pageNow-=1" class="btn btn-primary">上一頁</button>
         </div>
         <div class="col text-center align-self-center">
-          {{ pageNow }} / {{ Math.ceil(data.couplets.length/9) }}
+          {{ pageNow }} / {{ Math.ceil(couplets.length/9) }}
         </div>
         <div class="col text-end">
-          <button v-if="pageNow!=Math.ceil(data.couplets.length/9)" @click="pageNow+=1"
+          <button v-if="pageNow!=Math.ceil(couplets.length/9)" @click="pageNow+=1"
             class="btn btn-primary">下一頁</button>
         </div>
       </div>
@@ -120,7 +163,7 @@
             </button>
           </div>
           <div class="col-4">
-            <button class="btn btn-primary w-100">
+            <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#post-modal">
               <i class="bi bi-plus-square me-2"></i>貼上春聯
             </button>
           </div>

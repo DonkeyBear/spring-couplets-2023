@@ -13,7 +13,7 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-alert("5");
+// alert("5");
 
 // Vue 3 section
 // ljpLethNw4MWqXSsrU3jsrcCbXt1
@@ -25,7 +25,7 @@ uid: {
       sender: "SENDER-NAME",
       message: "MESSAGE-CONTENT",
       style: "1",
-      character: "福"
+      text: "福"
     }
   ]
 }
@@ -36,9 +36,16 @@ const app = Vue.createApp({
     return {
       coupletNow: 0,
       pageNow: 1,
-      wall: undefined,
-      uid: undefined,
-      data: undefined
+      wall: undefined, // 牆面所有者的 UID
+      uid: undefined, // 已登入使用者的 UID
+      name: undefined, // 牆面所有者的名字
+      couplets: undefined, // 將取得的 data 處理過後得到的 array
+      data: undefined,
+      coupletPost: {
+        sender: "",
+        message: "",
+        text: ""
+      }
     }
   },
   methods: {
@@ -57,6 +64,7 @@ const app = Vue.createApp({
     firebaseDatabaseOn(location = "/") {
       db.ref(location).on("value", (snapshot) => {
         this.data = snapshot.val();
+        this.couplets = Object.values(this.data.couplets);
       });
     },
     firebaseLoginPopup() {
@@ -77,6 +85,15 @@ const app = Vue.createApp({
             credential: error.credential
           }
         });
+    },
+    pushCouplet() {
+      this.coupletPost.style = this.getStyle();
+      db.ref(`${this.wall}/couplets`).push(this.coupletPost);
+    },
+    getStyle() {
+      // 1: 80%, 2: 15%, 3: 5%
+      let stylePool = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3];
+      return stylePool[Math.floor(Math.random() * stylePool.length)];
     },
     firebaseLoginRedirection() {
       const providerGoogle = new firebase.auth.GoogleAuthProvider();
@@ -115,8 +132,39 @@ const app = Vue.createApp({
     this.wall = this.getUrlParams("wall");
     if (this.wall) { this.firebaseDatabaseOn(this.wall) }
 
+    // 調整不同瀏覽器的登入方式（popup/redirection）
     if (this.isSafari()) { this.firebaseLoginRedirectionResult() }
 
+    // db.ref(this.wall).set({});
+
+    /* db.ref(this.wall).push({
+      name: "NICKNAME",
+      couplets: [
+        {
+          sender: "SENDER-NAME",
+          message: "MESSAGE-CONTENT",
+          style: "1",
+          text: "福"
+        }
+      ]
+    }); */
+
+    /* db.ref(this.wall).set({
+      name: "NICKNAME"
+    }); */
+
+    /* db.ref(`${this.wall}/couplets`).push({
+      sender: "SENDER-NAME4",
+      message: "MESSAGE-CONTENT",
+      style: "1",
+      text: "福"
+    }); */
+
+    /* this.pushCouplet({
+      sender: "TEST",
+      message: "MESSAGE-CONTENT",
+      text: "福"
+    }) */
 
   }
 });
