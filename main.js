@@ -13,7 +13,7 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-alert("4");
+alert("5");
 
 // Vue 3 section
 // ljpLethNw4MWqXSsrU3jsrcCbXt1
@@ -59,7 +59,7 @@ const app = Vue.createApp({
         this.data = snapshot.val();
       });
     },
-    firebaseLoginGoogle() {
+    firebaseLoginPopup() {
       const provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth()
         .signInWithPopup(provider)
@@ -74,16 +74,38 @@ const app = Vue.createApp({
             email: error.email,
             credential: error.credential
           })
-          alert(error.code)
-          alert(error.message)
-          alert(error.email)
-          alert(error.credential)
-          alert("伺服器發生錯誤，請稍後再試");
+          alert(`Code: ${error.code}\nMessage: ${error.message}\nEmail: ${error.email}\nCredential: ${error.credential}`);
+          alert("發生錯誤，請稍後再試");
+        });
+    },
+    firebaseLoginRedirection() {
+      const providerGoogle = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithRedirect(providerGoogle);
+    },
+    firebaseLoginRedirectionResult() {
+      firebase.auth()
+        .getRedirectResult()
+        .then((result) => {
+          this.uid = result.user.uid;
+          this.wall = result.user.uid;
+          this.firebaseDatabaseOn(this.uid);
+        }).catch((error) => {
+          console.error({
+            code: error.code,
+            message: error.message,
+            email: error.email,
+            credential: error.credential
+          })
+          alert(`Code: ${error.code}\nMessage: ${error.message}\nEmail: ${error.email}\nCredential: ${error.credential}`);
+          alert("發生錯誤，請稍後再試");
         });
     },
     getUrlParams(key) {
       let newUrl = new URL(window.location);
       return newUrl.searchParams.get(key);
+    },
+    isSafari() {
+      return (navigator.userAgent.toLowerCase().indexOf("safari") != -1);
     }
   },
   created() {
@@ -91,7 +113,9 @@ const app = Vue.createApp({
     this.wall = this.getUrlParams("wall");
     if (this.wall) { this.firebaseDatabaseOn(this.wall) }
 
-    if (typeof this.uid == "undefined") { this.firebaseLoginGoogle() }
+    if (this.isSafari()) { this.firebaseLoginRedirectionResult() }
+
+
   }
 });
 

@@ -112,7 +112,10 @@
         </template>
         <template v-else>
           <div class="col-8">
-            <button class="btn btn-primary w-100" @click="firebaseLoginGoogle()">
+            <button v-if="isSafari()" class="btn btn-primary w-100" @click="firebaseLoginRedirection()">
+              <i class="bi bi-house-add me-2"></i>創建 / 登入我的賀年牆
+            </button>
+            <button v-else class="btn btn-primary w-100" @click="firebaseLoginPopup()">
               <i class="bi bi-house-add me-2"></i>創建 / 登入我的賀年牆
             </button>
           </div>
