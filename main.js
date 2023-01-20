@@ -68,14 +68,14 @@ const app = Vue.createApp({
           this.wall = result.user.uid;
           this.firebaseDatabaseOn(this.uid);
         }).catch((error) => {
-          console.error({
+          alert(`Code: ${error.code}\nMessage: ${error.message}\nEmail: ${error.email}\nCredential: ${error.credential}`);
+          alert("發生錯誤，請稍後再試");
+          return {
             code: error.code,
             message: error.message,
             email: error.email,
             credential: error.credential
-          })
-          alert(`Code: ${error.code}\nMessage: ${error.message}\nEmail: ${error.email}\nCredential: ${error.credential}`);
-          alert("發生錯誤，請稍後再試");
+          }
         });
     },
     firebaseLoginRedirection() {
@@ -86,18 +86,20 @@ const app = Vue.createApp({
       firebase.auth()
         .getRedirectResult()
         .then((result) => {
-          this.uid = result.user.uid;
-          this.wall = result.user.uid;
-          this.firebaseDatabaseOn(this.uid);
+          if (result.user) {
+            this.uid = result.user.uid;
+            this.wall = result.user.uid;
+            this.firebaseDatabaseOn(this.uid);
+          }
         }).catch((error) => {
-          console.error({
+          alert(`Code: ${error.code}\nMessage: ${error.message}\nEmail: ${error.email}\nCredential: ${error.credential}`);
+          alert("發生錯誤，請稍後再試");
+          return {
             code: error.code,
             message: error.message,
             email: error.email,
             credential: error.credential
-          })
-          alert(`Code: ${error.code}\nMessage: ${error.message}\nEmail: ${error.email}\nCredential: ${error.credential}`);
-          alert("發生錯誤，請稍後再試");
+          }
         });
     },
     getUrlParams(key) {
