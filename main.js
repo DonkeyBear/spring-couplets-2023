@@ -124,8 +124,8 @@ const app = Vue.createApp({
       newUrl.searchParams.set(key, value);
       return newUrl;
     },
-    isSafari() {
-      return (navigator.userAgent.toLowerCase().indexOf("safari") != -1);
+    isWebkit() {
+      return (navigator.userAgent.toLowerCase().indexOf("webkit") != -1);
     },
     changePage(delta = 0) {
       let maxPage = Math.ceil(this.couplets.length / 9);
@@ -174,7 +174,7 @@ const app = Vue.createApp({
     if (this.wall) { this.firebaseDatabaseOn(this.wall) }
 
     // 調整不同瀏覽器的登入方式（popup/redirection）
-    if (this.isSafari()) { this.firebaseLoginRedirectionResult() }
+    if (this.isWebkit()) { this.firebaseLoginRedirectionResult() }
   }
 });
 
