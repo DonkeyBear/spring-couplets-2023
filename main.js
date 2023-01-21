@@ -72,7 +72,7 @@ const app = Vue.createApp({
       firebase.auth()
         .signInWithPopup(provider)
         .then((result) => {
-          loginCallback(result);
+          this.loginCallback(result);
         }).catch((error) => {
           alert(`Code: ${error.code}\nMessage: ${error.message}\nEmail: ${error.email}\nCredential: ${error.credential}`);
           alert("發生錯誤，請稍後再試");
@@ -102,7 +102,7 @@ const app = Vue.createApp({
         .getRedirectResult()
         .then((result) => {
           if (result.user) {
-            loginCallback(result);
+            this.loginCallback(result);
           }
         }).catch((error) => {
           alert(`Code: ${error.code}\nMessage: ${error.message}\nEmail: ${error.email}\nCredential: ${error.credential}`);
