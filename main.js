@@ -125,6 +125,14 @@ const app = Vue.createApp({
     },
     isSafari() {
       return (navigator.userAgent.toLowerCase().indexOf("safari") != -1);
+    },
+    changePage(delta) {
+      let pageNew = this.pageNow + delta
+      if ((pageNew > Math.ceil(this.couplets.length / 9)) || pageNew < 1) {
+        return;
+      } else {
+        this.pageNow = pageNew;
+      }
     }
   },
   created() {

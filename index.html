@@ -15,7 +15,16 @@
 
 <body>
 
+  <nav class="navbar sticky-top text-center mb-3">
+    <div class="container-fluid justify-content-center">
+      <span class="h3 text-light select-none mt-2 mb-0" href="#">────春聯賀年卡────</span>
+      <br>
+      <span class="by-anan">by 安安 (⁎⁍̴̛ᴗ⁍̴̛⁎)</span>
+    </div>
+  </nav>
+
   <div id="app" class="container">
+
     <div v-if="data" class="container-inner">
       <!-- Modal 查看春聯 -->
       <div class="modal fade" id="message-modal" tabindex="-1" aria-labelledby="message-modal-label" aria-hidden="true">
@@ -84,7 +93,8 @@
               <div class="row mb-2">
                 <div class="col">
                   <div class="form-floating">
-                    <input type="text" class="form-control" id="couplet-text-input" maxlength="1" v-model="coupletPost.text" placeholder="春聯題字">
+                    <input type="text" class="form-control" id="couplet-text-input" maxlength="1"
+                      v-model="coupletPost.text" placeholder="春聯題字">
                     <label class="text-muted" for="couplet-text-input">春聯題字（限一字）</label>
                   </div>
                 </div>
@@ -92,7 +102,8 @@
               <div class="row mb-2">
                 <div class="col">
                   <div class="form-floating">
-                    <input type="text" class="form-control" id="couplet-sender-input" v-model="coupletPost.sender" placeholder="發送者署名">
+                    <input type="text" class="form-control" id="couplet-sender-input" v-model="coupletPost.sender"
+                      placeholder="發送者署名">
                     <label class="text-muted" for="couplet-sender-input">發送者署名</label>
                   </div>
                 </div>
@@ -100,7 +111,8 @@
               <div class="row">
                 <div class="col">
                   <div class="form-floating">
-                    <textarea class="form-control" placeholder="訊息內容" id="couplet-message-input" v-model="coupletPost.message"></textarea>
+                    <textarea class="form-control" placeholder="訊息內容" id="couplet-message-input"
+                      v-model="coupletPost.message"></textarea>
                     <label class="text-muted" for="couplet-message-input">訊息內容</label>
                   </div>
                 </div>
@@ -114,10 +126,20 @@
         </div>
       </div>
 
-      <div class="row row-cols-3 gx-2 select-none">
+      <div class="row">
+        <div class="col-12 display-5 fw-bold">
+          <span class="text-red">{{ data.name }}</span>
+          <span class="ms-1">的春聯牆</span>
+        </div>
+        <div class="col-12">
+          <span class="text-muted"><i class="bi bi-mailbox2 me-1"></i>目前共有 {{ couplets.length }} 張春聯</span>
+        </div>
+      </div>
+
+      <div class="couplets-section row row-cols-3 gx-2 my-3 select-none">
         <template v-for="item of couplets.slice((pageNow-1)*9, pageNow*9)">
-          <div class="col text-center position-relative mb-2" :class="`couplet-${item.style}`" @click="coupletNow=couplets.indexOf(item)"
-            data-bs-toggle="modal" data-bs-target="#message-modal">
+          <div class="col text-center position-relative mb-2" :class="`couplet-${item.style}`"
+            @click="coupletNow=couplets.indexOf(item)" data-bs-toggle="modal" data-bs-target="#message-modal">
             <img v-if="item.style != 3" src="./img/couplet.svg" class="w-100 h-100">
             <img v-else src="./img/couplet3.svg" class="w-100 h-100">
             <span class="couplet-text position-absolute top-50 start-50">
@@ -125,23 +147,22 @@
             </span>
           </div>
         </template>
-        <template v-if="pageNow==Math.ceil(couplets.length/9)" v-for="space of 9-(couplets.length%9)">
+        <template v-if="pageNow==Math.ceil(couplets.length/9) && pageNow!=couplets.length/9"
+          v-for="space of 9-(couplets.length%9)">
+          <!-- 佔位用 -->
           <div class="col position-relative mb-2 opacity-0">
             <img src="./img/couplet.svg" class="w-100 h-100">
           </div>
         </template>
       </div>
 
-      <div class="row">
-        <div class="col text-start">
-          <button v-if="pageNow!=1" @click="pageNow-=1" class="btn btn-primary">上一頁</button>
-        </div>
-        <div class="col text-center align-self-center">
-          {{ pageNow }} / {{ Math.ceil(couplets.length/9) }}
-        </div>
-        <div class="col text-end">
-          <button v-if="pageNow!=Math.ceil(couplets.length/9)" @click="pageNow+=1"
-            class="btn btn-primary">下一頁</button>
+      <div class="row mt-3">
+        <div class="col text-center d-flex justify-content-center">
+          <div class="rounded-pill text-light page-badge">
+            <span @click="changePage(-1)" class="px-1"><i class="bi bi-caret-left-fill"></i></span>
+            <span class="page-number d-inline-block">{{ pageNow }} / {{ Math.ceil(couplets.length/9) }}</span>
+            <span @click="changePage(1)" class="px-1"><i class="bi bi-caret-right-fill"></i></span>
+          </div>
         </div>
       </div>
 
@@ -178,6 +199,12 @@
       </div>
     </div>
   </div>
+
+  <footer class="fixed-bottom bg-light">
+    <div class="container py-2">
+      <button class="btn btn-outline-danger w-100">功能選單</button>
+    </div>
+  </footer>
 
   <!-- Scripts -->
   <script src="https://unpkg.com/vue@3.2.45/dist/vue.global.js"></script>
