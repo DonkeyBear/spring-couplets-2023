@@ -10,6 +10,10 @@ body {
     font-family: 'Noto Serif TC', sans-serif;
 }
 
+.bg-theme {
+    background-color: #cc4e4e;
+}
+
 .by-anan {
     font-family: sans-serif;
     font-size: 0.7rem;
@@ -33,17 +37,15 @@ body {
         height: 20vw;
         width: 20vw;
         border-width: .5rem;
-        top: calc(50vh - 3.5rem);
     }
 }
 
 #couplet-message-input {
-    height: calc(7rem + calc(var(--bs-border-width) * 2));
-    ;
+    height: 14rem;
 }
 
 .page-badge {
-    background-color: rgba(183, 125, 18, 0.6);
+    background-color: rgba(134, 82, 0, 0.3);
     width: fit-content;
 }
 

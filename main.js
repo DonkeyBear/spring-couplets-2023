@@ -127,11 +127,19 @@ const app = Vue.createApp({
       return (navigator.userAgent.toLowerCase().indexOf("safari") != -1);
     },
     changePage(delta) {
+      let maxPage = Math.ceil(this.couplets.length / 9);
       let pageNew = this.pageNow + delta
-      if ((pageNew > Math.ceil(this.couplets.length / 9)) || pageNew < 1) {
-        return;
-      } else {
+      if ((pageNew <= maxPage) && (pageNew >= 1)) {
         this.pageNow = pageNew;
+        return;
+      }
+      if (pageNew > maxPage) {
+        this.pageNow = 1;
+        return;
+      }
+      if (pageNew < 1) {
+        this.pageNow = maxPage;
+        return;
       }
     }
   },
