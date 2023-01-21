@@ -72,9 +72,7 @@ const app = Vue.createApp({
       firebase.auth()
         .signInWithPopup(provider)
         .then((result) => {
-          this.uid = result.user.uid;
-          this.wall = result.user.uid;
-          this.firebaseDatabaseOn(this.uid);
+          loginCallback(result);
         }).catch((error) => {
           alert(`Code: ${error.code}\nMessage: ${error.message}\nEmail: ${error.email}\nCredential: ${error.credential}`);
           alert("發生錯誤，請稍後再試");
@@ -104,9 +102,7 @@ const app = Vue.createApp({
         .getRedirectResult()
         .then((result) => {
           if (result.user) {
-            this.uid = result.user.uid;
-            this.wall = result.user.uid;
-            this.firebaseDatabaseOn(this.uid);
+            loginCallback(result);
           }
         }).catch((error) => {
           alert(`Code: ${error.code}\nMessage: ${error.message}\nEmail: ${error.email}\nCredential: ${error.credential}`);
@@ -122,6 +118,11 @@ const app = Vue.createApp({
     getUrlParams(key) {
       let newUrl = new URL(window.location);
       return newUrl.searchParams.get(key);
+    },
+    addUrlParam(url, key, value) {
+      let newUrl = new URL(url);
+      newUrl.searchParams.set(key, value);
+      return newUrl;
     },
     isSafari() {
       return (navigator.userAgent.toLowerCase().indexOf("safari") != -1);
@@ -157,6 +158,14 @@ const app = Vue.createApp({
         this.coupletNow = maxCouplet;
         return;
       }
+    },
+    loginCallback(result) {
+      this.uid = result.user.uid;
+      this.wall = result.user.uid;
+      if (this.wall != this.uid) {
+        window.location.href = this.addUrlParam(window.location, "wall", this.uid);
+      }
+      this.firebaseDatabaseOn(this.uid);
     }
   },
   created() {
