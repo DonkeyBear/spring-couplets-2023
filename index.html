@@ -61,8 +61,14 @@
                   </div>
                 </div>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+              <div class="modal-footer justify-content-between text-muted">
+                <button class="btn" @click="changeCouplet(-1)">
+                  <i class="bi bi-caret-left-fill me-1"></i>上一則
+                </button>
+                <span>{{ coupletNow + 1 }} / {{ couplets.length }}</span>
+                <button class="btn" @click="changeCouplet(1)">
+                  下一則<i class="bi bi-caret-right-fill ms-1"></i>
+                </button>
               </div>
             </template>
             <template v-else>
@@ -129,7 +135,7 @@
 
       <div class="row">
         <div class="col-12 display-5 fw-bold">
-          <span class="text-red">{{ data.name }}</span>
+          <span class="text-theme">{{ data.name }}</span>
           <span class="ms-1">的春聯牆</span>
         </div>
         <div class="col-12">
@@ -167,11 +173,20 @@
         </div>
       </div>
 
-      <div class="row mt-3">
-        <div class="col text-center">
-          <button class="btn btn-danger bg-theme text-light rounded-pill px-4" data-bs-toggle="modal"
+      <div class="row my-3">
+        <div class="col-12 text-center mb-1">
+          <button class="btn btn-danger bg-theme text-light rounded-pill w-100" data-bs-toggle="modal"
             data-bs-target="#post-modal">
             <i class="bi bi-file-earmark-plus-fill me-2"></i>貼上新的春聯賀年卡
+          </button>
+        </div>
+        <div class="col-12 text-center">
+          <button v-if="isSafari()" class="btn btn-outline-danger text-theme rounded-pill w-100"
+            @click="firebaseLoginRedirection()">
+            <i class="bi bi-google me-2"></i>以 Google 登入 / 創建我的春聯牆
+          </button>
+          <button v-else class="btn btn-outline-danger text-theme rounded-pill w-100" @click="firebaseLoginPopup()">
+            <i class="bi bi-google me-2"></i>以 Google 登入 / 創建我的春聯牆
           </button>
         </div>
       </div>

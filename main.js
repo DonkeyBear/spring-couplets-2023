@@ -126,7 +126,7 @@ const app = Vue.createApp({
     isSafari() {
       return (navigator.userAgent.toLowerCase().indexOf("safari") != -1);
     },
-    changePage(delta) {
+    changePage(delta = 0) {
       let maxPage = Math.ceil(this.couplets.length / 9);
       let pageNew = this.pageNow + delta
       if ((pageNew <= maxPage) && (pageNew >= 1)) {
@@ -139,6 +139,22 @@ const app = Vue.createApp({
       }
       if (pageNew < 1) {
         this.pageNow = maxPage;
+        return;
+      }
+    },
+    changeCouplet(delta = 0) {
+      let maxCouplet = this.couplets.length - 1;
+      let coupletNew = this.coupletNow + delta;
+      if (coupletNew <= maxCouplet && coupletNew >= 0) {
+        this.coupletNow = coupletNew;
+        return;
+      }
+      if (coupletNew > maxCouplet) {
+        this.coupletNow = 0;
+        return;
+      }
+      if (coupletNew < 0) {
+        this.coupletNow = maxCouplet;
         return;
       }
     }

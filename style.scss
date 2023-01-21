@@ -14,14 +14,14 @@ body {
     background-color: #cc4e4e;
 }
 
+.text-theme {
+    color: #cc4e4e;
+}
+
 .by-anan {
     font-family: sans-serif;
     font-size: 0.7rem;
     color: rgba(255, 255, 255, 0.75)
-}
-
-.text-red {
-    color: #cc4e4e;
 }
 
 .select-none {
@@ -90,4 +90,5 @@ body {
 
 .couplet-message {
     white-space: pre;
+    height: 14rem;
 }
