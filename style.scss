@@ -8,6 +8,7 @@ body {
 .navbar {
     background-color: #cc4e4e;
     font-family: 'Noto Serif TC', sans-serif;
+    line-height: .75;
 }
 
 .bg-theme {
@@ -20,8 +21,8 @@ body {
 
 .by-anan {
     font-family: sans-serif;
-    font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.75)
+    font-size: .7rem;
+    color: rgba(255, 255, 255, .75)
 }
 
 .select-none {
@@ -45,7 +46,7 @@ body {
 }
 
 .page-badge {
-    background-color: rgba(134, 82, 0, 0.3);
+    background-color: rgba(134, 82, 0, .3);
     width: fit-content;
 }
 
@@ -55,13 +56,13 @@ body {
 
 .couplet-1 {
     img {
-        filter: drop-shadow(6px 4px 5px rgba(164, 127, 81, 0.2));
+        filter: drop-shadow(6px 4px 5px rgba(164, 127, 81, .2));
     }
 }
 
 .couplet-2 {
     img {
-        filter: drop-shadow(6px 4px 5px rgba(164, 127, 81, 0.2));
+        filter: drop-shadow(6px 4px 5px rgba(164, 127, 81, .2));
     }
 
     .couplet-text {
@@ -73,7 +74,7 @@ body {
 
 .couplet-3 {
     img {
-        filter: drop-shadow(6px 4px 5px rgba(164, 127, 81, 0.2)) saturate(105%) hue-rotate(-8deg);
+        filter: drop-shadow(6px 4px 5px rgba(164, 127, 81, .2)) saturate(105%) hue-rotate(-8deg);
     }
 
     .couplet-text {
