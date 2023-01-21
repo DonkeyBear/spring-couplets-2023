@@ -114,9 +114,9 @@
         </div>
       </div>
 
-      <div class="row row-cols-3 select-none">
+      <div class="row row-cols-3 gx-2 select-none">
         <template v-for="item of couplets.slice((pageNow-1)*9, pageNow*9)">
-          <div class="col text-center position-relative mb-3" :class="`couplet-${item.style}`" @click="coupletNow=couplets.indexOf(item)"
+          <div class="col text-center position-relative mb-2" :class="`couplet-${item.style}`" @click="coupletNow=couplets.indexOf(item)"
             data-bs-toggle="modal" data-bs-target="#message-modal">
             <img v-if="item.style != 3" src="./img/couplet.svg" class="w-100 h-100">
             <img v-else src="./img/couplet3.svg" class="w-100 h-100">
@@ -126,7 +126,7 @@
           </div>
         </template>
         <template v-if="pageNow==Math.ceil(couplets.length/9)" v-for="space of 9-(couplets.length%9)">
-          <div class="col position-relative mb-3 opacity-0">
+          <div class="col position-relative mb-2 opacity-0">
             <img src="./img/couplet.svg" class="w-100 h-100">
           </div>
         </template>

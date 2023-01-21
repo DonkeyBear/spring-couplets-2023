@@ -134,38 +134,6 @@ const app = Vue.createApp({
 
     // 調整不同瀏覽器的登入方式（popup/redirection）
     if (this.isSafari()) { this.firebaseLoginRedirectionResult() }
-
-    // db.ref(this.wall).set({});
-
-    /* db.ref(this.wall).push({
-      name: "NICKNAME",
-      couplets: [
-        {
-          sender: "SENDER-NAME",
-          message: "MESSAGE-CONTENT",
-          style: "1",
-          text: "福"
-        }
-      ]
-    }); */
-
-    /* db.ref(this.wall).set({
-      name: "NICKNAME"
-    }); */
-
-    /* db.ref(`${this.wall}/couplets`).push({
-      sender: "SENDER-NAME4",
-      message: "MESSAGE-CONTENT",
-      style: "1",
-      text: "福"
-    }); */
-
-    /* this.pushCouplet({
-      sender: "TEST",
-      message: "MESSAGE-CONTENT",
-      text: "福"
-    }) */
-
   }
 });
 
