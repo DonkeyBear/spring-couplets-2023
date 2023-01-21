@@ -175,6 +175,8 @@ const app = Vue.createApp({
 
     // 調整不同瀏覽器的登入方式（popup/redirection）
     if (this.isWebkit()) { this.firebaseLoginRedirectionResult() }
+
+    window.open('https://example.com', '_blank');
   }
 });
 
