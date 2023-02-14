@@ -64,7 +64,9 @@ const app = Vue.createApp({
     firebaseDatabaseOn(location = "/") {
       db.ref(location).on("value", (snapshot) => {
         this.data = snapshot.val();
-        this.couplets = Object.values(this.data.couplets);
+        if (this.data) {
+          this.couplets = Object.values(this.data.couplets);
+        }
       });
     },
     firebaseLoginPopup() {
@@ -161,10 +163,10 @@ const app = Vue.createApp({
     },
     loginCallback(result) {
       this.uid = result.user.uid;
-      this.wall = result.user.uid;
       if (this.wall != this.uid) {
         window.location.href = this.addUrlParam(window.location, "wall", this.uid);
       }
+      this.wall = result.user.uid;
       this.firebaseDatabaseOn(this.uid);
     }
   },
@@ -176,7 +178,13 @@ const app = Vue.createApp({
     // 調整不同瀏覽器的登入方式（popup/redirection）
     if (this.isWebkit()) { this.firebaseLoginRedirectionResult() }
 
-    window.open('https://example.com', '_blank');
+    if (!this.data && !this.uid) {
+      if (this.isWebkit()) {
+        this.firebaseLoginRedirection();
+      } else {
+        this.firebaseLoginPopup();
+      }
+    }
   }
 });
 
